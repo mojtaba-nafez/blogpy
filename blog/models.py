@@ -16,8 +16,9 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User,  on_delete=models.CASCADE)
     avator = models.FileField(upload_to='files/user_avatar',null=False, blank=False, validators=[validate_file_extention])
     description = models.CharField( max_length=512, null=False, blank=False)
+    def __str__(self):
+        return self.user.first_name+' '+self.user.last_name
 
-  
 
 class Article(models.Model):
     cover = models.FileField(upload_to='files/article_cover',null=False, blank=False, validators=[validate_file_extention])
@@ -25,12 +26,14 @@ class Article(models.Model):
     content = RichTextField()
     created_at = models.DateTimeField(default=datetime.now, blank=False)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
-    author = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     
 class Category(models.Model):
     cover = models.FileField(upload_to='files/category_cover',null=False, blank=False, validators=[validate_file_extention])
     title = models.CharField( max_length=128, null=False, blank=False)
     
-   
+    def __str__(self):
+        return self.title
+    
     
